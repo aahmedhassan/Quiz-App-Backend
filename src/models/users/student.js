@@ -34,10 +34,12 @@ const studentSchema = Schema({
     required: true,
     default: "student",
   },
-  quizScore: {
-    type: Number,
-    default: 0,
-  },
+  teacher: {
+    type: Schema.Types.ObjectId,
+    ref: 'teacher',
+    required: true
+
+  }
 });
 
 studentSchema.pre("save", async function (next) {

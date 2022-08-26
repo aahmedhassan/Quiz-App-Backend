@@ -59,7 +59,7 @@ const getTeacher = async (req, res) => {
 
 const getStudents = async (req, res) => {
   try {
-    const students = await student.find({});
+    const students = await student.find({}).populate("teacher", "name email");
     if (students.length < 0) {
       return res
         .status(404)
@@ -74,7 +74,7 @@ const getStudents = async (req, res) => {
 const getStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const exStudent = await student.findById({ _id: id });
+    const exStudent = await student.findById({ _id: id }).populate("teacher", "name email");
     if (!exStudent) {
       return res
         .status(404)
@@ -88,7 +88,7 @@ const getStudent = async (req, res) => {
 
 const getQuizes = async (req, res) => {
   try {
-    const quizes = await quiz.find({});
+    const quizes = await quiz.find({}).populate("teacher", "name email");
     if (quizes.length < 0) {
       return res
         .status(404)

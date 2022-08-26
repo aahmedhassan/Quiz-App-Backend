@@ -37,18 +37,11 @@ const teacherSchema = Schema({
     type: String,
     required: true,
   },
-  enrolledStd: {
-    type: [Schema.Types.ObjectId],
-    ref: "student",
-  },
-  quiz: {
-    type: Schema.Types.ObjectId,
-    ref: "quiz",
-  },
+  
 });
 
 teacherSchema.pre("save", async function (next) {
-  teacher = this;
+  const teacher = this;
   if (teacher.isModified("password")) {
     teacher.password = await bcrypt.hash(teacher.password, 8);
   }

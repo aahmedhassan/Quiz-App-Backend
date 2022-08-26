@@ -7,18 +7,26 @@ const quizSchema = Schema({
     required: true,
   },
   options: {
-    type: Array,
+    type: [String],
     required: true,
   },
   answers: {
-    type: Array,
+    type: [String],
     required: true,
   },
   isMultiSelect: {
     type: Boolean,
     required: true,
   },
-  createdBy: {
+  maxScore: {
+    type: Number,
+    required: true,
+  },
+  timeLimit: {
+    type: Number,
+    required: true,
+  },
+  teacher: {
     type: Schema.Types.ObjectId,
     ref: "teacher",
   },

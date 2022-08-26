@@ -5,12 +5,6 @@ const admin = require("./models/users/admin");
 
 dotenv.config();
 
-app.get("/", (req, res) => {
-  const date = new Date();
-  console.log(date);
-  res.send("Quiz Application Api");
-});
-
 conneciton.once("open", async () => {
   const exAdmin = await admin.find({ email: "admin@decotechs.com" });
   if (exAdmin.length == 0) {
