@@ -34,12 +34,17 @@ const studentSchema = Schema({
     required: true,
     default: "student",
   },
-  teacher: {
+  course: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "course",
+    },
+  ],
+  createdBy: {
     type: Schema.Types.ObjectId,
-    ref: 'teacher',
-    required: true
-
-  }
+    ref: "teacher",
+    required: true,
+  },
 });
 
 studentSchema.pre("save", async function (next) {

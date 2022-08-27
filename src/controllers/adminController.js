@@ -2,6 +2,7 @@ const admin = require("../models/users/admin");
 const teacher = require("../models/users/teacher");
 const student = require("../models/users/student");
 const quiz = require("../models/quiz/quiz");
+const course = require("../models/course/course");
 
 //create
 
@@ -59,7 +60,9 @@ const getTeacher = async (req, res) => {
 
 const getStudents = async (req, res) => {
   try {
-    const students = await student.find({}).populate("teacher", "name email");
+    const students = await student
+      .find({})
+      .populate("course", "name creditHrs");
     if (students.length < 0) {
       return res
         .status(404)
@@ -74,7 +77,9 @@ const getStudents = async (req, res) => {
 const getStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const exStudent = await student.findById({ _id: id }).populate("teacher", "name email");
+    const exStudent = await student
+      .findById({ _id: id })
+      .populate("course", "name creditHrs");
     if (!exStudent) {
       return res
         .status(404)
@@ -88,13 +93,27 @@ const getStudent = async (req, res) => {
 
 const getQuizes = async (req, res) => {
   try {
-    const quizes = await quiz.find({}).populate("teacher", "name email");
+    const quizes = await quiz.find({}).populate("course", "name creditHrs");
     if (quizes.length < 0) {
       return res
         .status(404)
         .send({ message: "No quizess found", success: false });
     }
     res.status(200).send({ quizes: quizes, success: true });
+  } catch (error) {
+    res.status(500).send({ error: error, success: false });
+  }
+};
+
+const getCourses = async (req, res) => {
+  try {
+    const courses = await course.find({}).populate("teacher", "name email");
+    if (!courses) {
+      return res
+        .status(404)
+        .send({ message: "No courses found", success: false });
+    }
+    res.status(200).send({ success: true, courses: courses });
   } catch (error) {
     res.status(500).send({ error: error, success: false });
   }
@@ -107,4 +126,5 @@ module.exports = {
   getStudents,
   getStudent,
   getQuizes,
+  getCourses,
 };
